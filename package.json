@@ -1,0 +1,26 @@
+{
+  "name": "smartbond",
+  "version": "1.0.0",
+  "description": "Solidity smart bond. Buyers can redeem their coupons and also their principal at maturity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefanionescu/Smart-Bond.git"
+  },
+  "keywords": [
+    "solidity",
+    "blockchain",
+    "ethereum",
+    "smart",
+    "bond"
+  ],
+  "author": "Stefan Ionescu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stefanionescu/Smart-Bond/issues"
+  },
+  "homepage": "https://github.com/stefanionescu/Smart-Bond#readme"
+}
