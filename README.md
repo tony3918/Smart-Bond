@@ -1,6 +1,6 @@
 # Smart-Bond
 
-##WIP!
+## WIP!
 
 In order to test the SmartBond you'll need truffle installed on your local machine.
 
