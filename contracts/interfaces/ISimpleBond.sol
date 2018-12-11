@@ -1,6 +1,6 @@
 pragma solidity 0.4.24;
 
-contract IDAOBond {
+contract ISimpleBond {
 
   event MintedBond(address buyer, uint256 bondsAmount);
 

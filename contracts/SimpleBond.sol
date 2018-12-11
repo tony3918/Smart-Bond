@@ -3,9 +3,9 @@ pragma solidity 0.4.24;
 import "contracts/zeppelin/ownership/Ownable.sol";
 import "contracts/zeppelin/SafeMath.sol";
 import "contracts/zeppelin/ERC20/BasicToken.sol";
-import "contracts/interfaces/IDAOBond.sol";
+import "contracts/interfaces/ISimpleBond.sol";
 
-contract DAOBond is IDAOBond, Ownable {
+contract SimpleBond is ISimpleBond, Ownable {
 
   using SafeMath for uint256;
 
