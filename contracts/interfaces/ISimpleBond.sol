@@ -17,6 +17,8 @@ contract ISimpleBond {
 
   function transfer(address receiver, uint256[] bonds) public;
 
+  function donate() public payable;
+
   //PRIVATE
 
   function getMoney(uint256 amount) private;

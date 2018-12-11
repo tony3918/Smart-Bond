@@ -94,7 +94,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
     }
 
-    totalDebt = totalDebt.add(parValue).add(parValue * couponRate / 100);
+    totalDebt = totalDebt.add(parValue).add((parValue * couponRate / 100) * timesToRedeem);
 
     emit MintedBond(buyer, _bondsAmount);
 
@@ -156,10 +156,15 @@ contract SimpleBond is ISimpleBond, Ownable {
 
       bonds[_bonds[i]] = receiver;
       bondsAmount[msg.sender] = bondsAmount[msg.sender].sub(1);
+      bondsAmount[receiver] = bondsAmount[receiver].add(1);
 
     }
 
     emit Transferred(msg.sender, receiver, _bonds);
+
+  }
+
+  function donate() public payable {
 
   }
 

@@ -1,4 +1,4 @@
-var simpleBond = {
+{
   "contractName": "SimpleBond",
   "abi": [
     {
@@ -22810,10 +22810,4 @@ var simpleBond = {
   },
   "schemaVersion": "2.0.1",
   "updatedAt": "2018-12-11T17:26:01.868Z"
-}
-
-module.exports = {
-
-  simpleBond
-
 }
