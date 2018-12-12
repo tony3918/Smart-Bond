@@ -14,4 +14,4 @@ Then simply do:
 
 To test the bond contract.
 
-**BONUS:** inside the *fundamental_analysis* directory you'll find valuation techniques for bonds written in Javascript such as yield to maturity and the current bond price.
+**BONUS:** inside the *js/fundamental_analysis* directory you'll find valuation techniques for bonds written in Javascript such as yield to maturity and the current bond price.
