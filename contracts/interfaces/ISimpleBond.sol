@@ -23,7 +23,7 @@ contract ISimpleBond {
 
   //PRIVATE
 
-  function getMoney(uint256 amount) private;
+  function getMoney(uint256 amount, address receiver) private;
 
   //GETTERS
 

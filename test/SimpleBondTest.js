@@ -32,6 +32,30 @@ contract('SimpleBond', function(accounts) {
 
     });
 
+    it("Redeem coupons", async () => {
+
+      assert.equal(await bond.getTotalDebt(), 60000)
+
+      //Get the coupons for the first year
+
+      await increaseTime.increaseTimeTo
+        (web3.eth.getBlock(web3.eth.blockNumber).timestamp + increaseTime.duration.days(367));
+
+      await bond.redeemCoupons(redeemed, {from: accounts[1]})
+
+      assert.equal((await bond.getTotalDebt()), 59500)
+
+      await increaseTime.increaseTimeTo
+        (web3.eth.getBlock(web3.eth.blockNumber).timestamp + increaseTime.duration.days(367));
+
+      //Get the coupons for the second year + principal back
+
+      await bond.redeemCoupons(redeemed, {from: accounts[1]})
+
+      assert.equal((await bond.getTotalDebt()), 54000)
+
+    })
+
     it("Transfer bonds", async () => {
 
       await bond.transfer(accounts[2], transferrableBonds, {from: accounts[1]})
@@ -43,15 +67,6 @@ contract('SimpleBond', function(accounts) {
         assert.equal(await bond.getBondOwner(i + 1), accounts[2])
 
       }
-
-    })
-
-    it("Redeem coupons", async () => {
-
-      await increaseTime.increaseTimeTo
-        (web3.eth.getBlock(web3.eth.blockNumber).timestamp + increaseTime.duration.days(366));
-
-      await bond.redeemCoupons(redeemed)
 
     })
 

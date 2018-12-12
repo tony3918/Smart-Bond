@@ -146,7 +146,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
       couponsRedeemed[_bonds[i]] = couponsRedeemed[_bonds[i]].add(toRedeem);
 
-      getMoney( toRedeem.mul(parValue.mul(couponRate).div( 10 ** (parDecimals.add(2)) ) ) );
+      getMoney( toRedeem.mul(parValue.mul(couponRate).div( 10 ** (parDecimals.add(2)) ) ), msg.sender );
 
       if (couponsRedeemed[_bonds[i]] == timesToRedeem) {
 
@@ -154,7 +154,7 @@ contract SimpleBond is ISimpleBond, Ownable {
         maturities[_bonds[i]] = 0;
         bondsAmount[msg.sender]--;
 
-        getMoney(parValue.div( (10 ** parDecimals) ) );
+        getMoney(parValue.div( (10 ** parDecimals) ), msg.sender );
 
       }
 
@@ -190,10 +190,10 @@ contract SimpleBond is ISimpleBond, Ownable {
 
   //PRIVATE
 
-  function getMoney(uint256 amount) private {
+  function getMoney(uint256 amount, address receiver) private {
 
     if (address(token) == address(0))
-      msg.sender.transfer(amount);
+      receiver.transfer(amount);
 
     else
       token.transfer(msg.sender, amount);
