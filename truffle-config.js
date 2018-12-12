@@ -13,7 +13,6 @@ module.exports = {
       from: "0x6259ac218eed8caf47e26246d7e13c1df70165f2",
       gas: 7900000
     },
-
     rinkeby: {
         provider: function() {
           return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/")
@@ -21,7 +20,6 @@ module.exports = {
         network_id: 4,
         gas: 7000000
     },
-
     ropsten: {
         provider: function() {
           return new HDWalletProvider(mnemonic, "https://ropsten.infura.io/")
@@ -29,11 +27,8 @@ module.exports = {
         network_id: 3,
         gas: 7000000
     }
-
   },
-
   mocha: {
     enableTimeouts: false
   }
-
 };

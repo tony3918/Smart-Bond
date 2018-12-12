@@ -1,16 +1,16 @@
-# Smart-Bond
+# [WIP] Smart-Bond
 
-## WIP!
+## Steps
 
-In order to test the SmartBond you'll need truffle installed on your local machine.
+In order to test the SmartBond, you'll need [truffle](https://github.com/trufflesuite/truffle) and [ganache-cli](https://github.com/trufflesuite/ganache-cli) installed on your local machine.
 
-Use *starttestrpc.sh* to start your local chain.
+Use `startGanache.sh` to start your local testnet.
 
 Then simply do:
 
-**truffle compile**
-
-**truffle test**
+1. `npm install`
+2. `truffle compile`
+3. `truffle test`
 
 To test the bond contract.
 
