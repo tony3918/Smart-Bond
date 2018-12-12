@@ -29,6 +29,8 @@ contract SimpleBond is ISimpleBond, Ownable {
 
   uint256 timesToRedeem;
 
+  uint256 loopLimit;
+
   uint256 nonce = 0;
 
   uint256 couponThreshold = 0;
@@ -43,10 +45,14 @@ contract SimpleBond is ISimpleBond, Ownable {
   mapping(address => uint256) bondsAmount;
 
   constructor(string _name, uint256 _par, uint256 _parDecimals, uint256 _coupon,
-              uint256 _term, uint256 _cap, uint256 _timesToRedeem, address _tokenToRedeem) {
+              uint256 _term, uint256 _cap, uint256 _timesToRedeem, address _tokenToRedeem,
+              uint256 _loopLimit) {
 
+    require(bytes(_name).length > 0);
     require(_coupon > 0);
     require(_par > 0);
+    require(_term > 0);
+    require(_loopLimit > 0);
     require(_timesToRedeem >= 1);
 
     name = _name;
@@ -54,6 +60,8 @@ contract SimpleBond is ISimpleBond, Ownable {
     parValue = _par;
 
     cap = _cap;
+
+    loopLimit = _loopLimit;
 
     parDecimals = _parDecimals;
 
@@ -63,7 +71,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
     term = _term;
 
-    couponThreshold = term / timesToRedeem;
+    couponThreshold = term.div(timesToRedeem);
 
     if (_tokenToRedeem == address(0))
       tokenToRedeem = _tokenToRedeem;
@@ -73,13 +81,22 @@ contract SimpleBond is ISimpleBond, Ownable {
 
   }
 
+  function changeLoopLimit(uint256 _loopLimit) public onlyOwner {
+
+    require(_loopLimit > 0);
+
+    loopLimit = _loopLimit;
+
+  }
+
   function mintBond(address buyer, uint256 _bondsAmount) public onlyOwner {
 
     require(buyer != address(0));
     require(_bondsAmount >= 1);
+    require(_bondsAmount <= loopLimit);
 
     if (cap > 0)
-      require(bondsNumber + _bondsAmount <= cap);
+      require(bondsNumber.add(_bondsAmount) <= cap);
 
     bondsNumber = bondsNumber.add(_bondsAmount);
 
@@ -94,7 +111,9 @@ contract SimpleBond is ISimpleBond, Ownable {
 
     }
 
-    totalDebt = totalDebt.add(parValue).add((parValue * couponRate / 100) * timesToRedeem);
+    totalDebt = totalDebt.add(parValue.mul(_bondsAmount))
+                .add((parValue.mul(couponRate)
+                .div(100)).mul(timesToRedeem.mul(_bondsAmount)));
 
     emit MintedBond(buyer, _bondsAmount);
 
@@ -103,6 +122,7 @@ contract SimpleBond is ISimpleBond, Ownable {
   function redeemCoupons(uint256[] _bonds) public {
 
     require(_bonds.length > 0);
+    require(_bonds.length <= loopLimit);
 
     uint256 issueDate = 0;
     uint256 lastThresholdRedeemed = 0;
@@ -115,18 +135,18 @@ contract SimpleBond is ISimpleBond, Ownable {
 
       issueDate = maturities[_bonds[i]].sub(term);
 
-      lastThresholdRedeemed = issueDate.add(couponsRedeemed[_bonds[i]] * couponThreshold);
+      lastThresholdRedeemed = issueDate.add(couponsRedeemed[_bonds[i]].mul(couponThreshold));
 
       if (lastThresholdRedeemed.add(couponThreshold) >= maturities[_bonds[i]] ||
           now < lastThresholdRedeemed.add(couponThreshold)) continue;
 
-      toRedeem = (now.sub(lastThresholdRedeemed)) / couponThreshold;
+      toRedeem = (now.sub(lastThresholdRedeemed)).div(couponThreshold);
 
       if (toRedeem == 0) continue;
 
       couponsRedeemed[_bonds[i]] = couponsRedeemed[_bonds[i]].add(toRedeem);
 
-      getMoney( toRedeem * (parValue * couponRate / 10 ** (parDecimals + 2) ) );
+      getMoney( toRedeem.mul(parValue.mul(couponRate).div( 10 ** (parDecimals.add(2)) ) ) );
 
       if (couponsRedeemed[_bonds[i]] == timesToRedeem) {
 
@@ -134,7 +154,7 @@ contract SimpleBond is ISimpleBond, Ownable {
         maturities[_bonds[i]] = 0;
         bondsAmount[msg.sender]--;
 
-        getMoney(parValue / (10 ** parDecimals));
+        getMoney(parValue.div( (10 ** parDecimals) ) );
 
       }
 
@@ -164,9 +184,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
   }
 
-  function donate() public payable {
-
-  }
+  function donate() public payable {}
 
   function() {}
 
@@ -190,13 +208,13 @@ contract SimpleBond is ISimpleBond, Ownable {
 
     uint256 issueDate = maturities[bond].sub(term);
 
-    uint256 lastThresholdRedeemed = issueDate.add(couponsRedeemed[bond] * couponThreshold);
+    uint256 lastThresholdRedeemed = issueDate.add(couponsRedeemed[bond].mul(couponThreshold));
 
     return lastThresholdRedeemed;
 
   }
 
-  function getOwner(uint256 bond) public view returns (address) {
+  function getBondOwner(uint256 bond) public view returns (address) {
 
     return bonds[bond];
 
@@ -204,7 +222,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
   function getRemainingCoupons(uint256 bond) public view returns (int256) {
 
-    address owner = getOwner(bond);
+    address owner = getBondOwner(bond);
 
     if (owner == address(0)) return -1;
 
@@ -250,7 +268,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
     uint256 par = getParValue();
 
-    return par * rate / 100;
+    return par.mul(rate).div(100);
 
   }
 

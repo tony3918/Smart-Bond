@@ -12,6 +12,7 @@ module.exports = async function(deployer, network, accounts) {
   let cap = 1000
   let timesToRedeem = 4
   let tkn = 0x0
+  let limit = 50
 
   if (network == "main") {
 
@@ -19,7 +20,7 @@ module.exports = async function(deployer, network, accounts) {
   } else if (network == "rinkeby" || network == "ropsten") {
 
     deployer.deploy(SimpleBond, name, par, parDecimals, coupon,
-                    term, cap, timesToRedeem, tkn).then(function() {
+                    term, cap, timesToRedeem, tkn, limit).then(function() {
 
 
 
@@ -28,7 +29,7 @@ module.exports = async function(deployer, network, accounts) {
   } else if (network == "development") {
 
     deployer.deploy(SimpleBond, name, par, parDecimals, coupon,
-                    term, cap, timesToRedeem, tkn, {from: accounts[0]}).then(function() {
+                    term, cap, timesToRedeem, tkn, limit, {from: accounts[0]}).then(function() {
 
       console.log("Bond deployed!")
 

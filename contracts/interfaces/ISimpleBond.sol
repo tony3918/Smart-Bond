@@ -11,6 +11,8 @@ contract ISimpleBond {
   event Transferred(address indexed from, address indexed to, uint256[] bonds);
 
 
+  function changeLoopLimit(uint256 _loopLimit) public;
+
   function mintBond(address buyer, uint256 bondsAmount) public;
 
   function redeemCoupons(uint256[] _bonds) public;
@@ -25,7 +27,7 @@ contract ISimpleBond {
 
   //GETTERS
 
-  function getOwner(uint256 bond) public view returns (address);
+  function getBondOwner(uint256 bond) public view returns (address);
 
   function getRemainingCoupons(uint256 bond) public view returns (int256);
 

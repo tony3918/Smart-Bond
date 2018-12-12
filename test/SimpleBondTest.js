@@ -11,10 +11,11 @@ contract('SimpleBond', function(accounts) {
     let par = 1000
     let parDecimals = 0
     let coupon = 5
-    let term = 31557600 * 2
+    let term = 31557600 * 2 // 2 years
     let cap = 1000
-    let timesToRedeem = 4
-    let tkn = 0x0
+    let timesToRedeem = 4 // redeem every half a year
+    let tkn = 0x0 // we use eth
+    let limit = 50
 
     let transferrableBonds = [1,2,3,4,5,6,7,8,9,10]
 
@@ -23,11 +24,11 @@ contract('SimpleBond', function(accounts) {
     beforeEach(async () => {
 
       bond = await SimpleBond.new(name, par, parDecimals, coupon,
-                        term, cap, timesToRedeem, tkn, {from: accounts[0]});
+                        term, cap, timesToRedeem, tkn, limit, {from: accounts[0]});
 
-      await bond.donate({from: accounts[0], value: 100})
+      await bond.donate({from: accounts[0], value: 10 ** 16})
 
-      await bond.mintBond(accounts[1], 100, {from: accounts[0]});
+      await bond.mintBond(accounts[1], limit, {from: accounts[0]});
 
     });
 
@@ -39,7 +40,7 @@ contract('SimpleBond', function(accounts) {
 
       for (var i = 0; i < transferrableBonds.length; i++) {
 
-        assert.equal(await bond.getOwner(i + 1), accounts[2])
+        assert.equal(await bond.getBondOwner(i + 1), accounts[2])
 
       }
 
@@ -48,7 +49,7 @@ contract('SimpleBond', function(accounts) {
     it("Redeem coupons", async () => {
 
       await increaseTime.increaseTimeTo
-        (web3.eth.getBlock(web3.eth.blockNumber).timestamp + increaseTime.duration.years(1));
+        (web3.eth.getBlock(web3.eth.blockNumber).timestamp + increaseTime.duration.days(366));
 
       await bond.redeemCoupons(redeemed)
 
