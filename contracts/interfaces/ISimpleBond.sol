@@ -51,7 +51,7 @@ contract ISimpleBond {
 
   function getCap() public view returns (uint256);
 
-  function getBondsNumber(address who) public view returns (uint256);
+  function getBalance(address who) public view returns (uint256);
 
   function getParDecimals() public view returns (uint256);
 
@@ -66,7 +66,5 @@ contract ISimpleBond {
   function getNonce() public view returns (uint256);
 
   function getCouponThreshold() public view returns (uint256);
-
-  function getMaxCouponsToRedeem() public view returns (uint256);
 
 }

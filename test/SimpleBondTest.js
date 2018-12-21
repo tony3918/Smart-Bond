@@ -60,7 +60,7 @@ contract('SimpleBond', function(accounts) {
 
       await bond.transfer(accounts[2], transferrableBonds, {from: accounts[1]})
 
-      assert.equal(await bond.getBondsNumber(accounts[2]), 10)
+      assert.equal(await bond.getBalance(accounts[2]), 10)
 
       for (var i = 0; i < transferrableBonds.length; i++) {
 
