@@ -1,6 +1,9 @@
 var SimpleBond = artifacts.require("contracts/SimpleBond.sol");
+var BasicToken = artifacts.require("contracts/zeppelin/ERC20/BasicToken.sol");
 
 module.exports = async function(deployer, network, accounts) {
+  deployer.deploy(BasicToken);
+
   let devAddress = "0x1900a41f2777ab70aad2074e3f4b9c5429c7f243";
 
   let name = "Simple Bond";
