@@ -71,7 +71,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
      couponThreshold = term.div(timesToRedeem);
 
-     if (_tokenToRedeem == address(0))
+     if (_tokenToRedeem == address(0x0000000000000000000000000000000000000000))
        tokenToRedeem = _tokenToRedeem;
 
      else
@@ -100,7 +100,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
    function mintBond(address buyer, uint256 _bondsAmount) public onlyOwner {
 
-     require(buyer != address(0));
+     require(buyer != address(0x0000000000000000000000000000000000000000));
      require(_bondsAmount >= 1);
      require(_bondsAmount <= loopLimit);
 
@@ -165,7 +165,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
        if (couponsRedeemed[_bonds[i]] == timesToRedeem) {
 
-         bonds[_bonds[i]] = address(0);
+         bonds[_bonds[i]] = address(0x0000000000000000000000000000000000000000);
          maturities[_bonds[i]] = 0;
          bondsAmount[msg.sender]--;
 
@@ -188,7 +188,7 @@ contract SimpleBond is ISimpleBond, Ownable {
    function transfer(address receiver, uint256[] _bonds) public {
 
      require(_bonds.length > 0);
-     require(receiver != address(0));
+     require(receiver != address(0x0000000000000000000000000000000000000000));
      require(_bonds.length <= getBalance(msg.sender));
 
      for (uint256 i = 0; i < _bonds.length; i++) {
@@ -212,7 +212,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
    function donate() public payable {
 
-     require(address(token) == address(0));
+     require(address(token) == address(0x0000000000000000000000000000000000000000));
 
    }
 
@@ -228,7 +228,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
    function getMoney(uint256 amount, address receiver) private {
 
-     if (address(token) == address(0))
+     if (address(token) == address(0x0000000000000000000000000000000000000000))
        receiver.transfer(amount);
 
      else
@@ -275,7 +275,7 @@ contract SimpleBond is ISimpleBond, Ownable {
 
      address owner = getBondOwner(bond);
 
-     if (owner == address(0)) return -1;
+     if (owner == address(0x0000000000000000000000000000000000000000)) return -1;
 
      uint256 redeemed = getCouponsRedeemed(bond);
 

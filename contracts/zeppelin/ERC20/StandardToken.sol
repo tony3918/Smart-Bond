@@ -32,7 +32,7 @@ contract StandardToken is ERC20, BasicToken {
   {
     require(_value <= balances[_from]);
     require(_value <= allowed[_from][msg.sender]);
-    require(_to != address(0));
+    require(_to != address(0x0000000000000000000000000000000000000000));
 
     balances[_from] = balances[_from].sub(_value);
     balances[_to] = balances[_to].add(_value);

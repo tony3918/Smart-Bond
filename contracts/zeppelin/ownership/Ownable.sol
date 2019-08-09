@@ -41,7 +41,7 @@ contract Ownable {
    */
   function renounceOwnership() public onlyOwner {
     emit OwnershipRenounced(owner);
-    owner = address(0);
+    owner = address(0x0000000000000000000000000000000000000000);
   }
 
   /**
@@ -57,7 +57,7 @@ contract Ownable {
    * @param _newOwner The address to transfer ownership to.
    */
   function _transferOwnership(address _newOwner) internal {
-    require(_newOwner != address(0));
+    require(_newOwner != address(0x0000000000000000000000000000000000000000));
     emit OwnershipTransferred(owner, _newOwner);
     owner = _newOwner;
   }
