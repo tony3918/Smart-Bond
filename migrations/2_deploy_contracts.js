@@ -5,7 +5,7 @@ module.exports = async function(deployer, network, accounts) {
   deployer
     .deploy(BasicToken)
     .then(() => BasicToken.deployed())
-    .then(instance => console.log(instance.address));
+    .then(instance => console.log(instance.address)); // 0xd9d64b7DC034fAfDbA5DC2902875A67b5d586420
 
   let devAddress = "0x1900a41f2777ab70aad2074e3f4b9c5429c7f243";
 
