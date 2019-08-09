@@ -1,18 +1,65 @@
-var HDWalletProvider = require("truffle-hdwallet-provider");
-
-//ADD YOUR OWN MNEMONIC (and keep it secret so don't push it to a repo)
-
-var mnemonic = "";
-
 module.exports = {
   networks: {
     development: {
-      host: "localhost",
-      port: 8545,
-      network_id: "*",
-      from: "0x6259ac218eed8caf47e26246d7e13c1df70165f2",
-      gas: 7900000
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 22000, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+      gasPrice: 0,
+      gas: 4500000,
+      type: "quorum"
+    },
+    node2: {
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 22001, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+      gasPrice: 0,
+      gas: 4500000,
+      type: "quorum"
+    },
+    node3: {
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 22002, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+      gasPrice: 0,
+      gas: 4500000,
+      type: "quorum"
+    },
+    node4: {
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 22003, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+      gasPrice: 0,
+      gas: 4500000,
+      type: "quorum"
+    },
+    node5: {
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 22004, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+      gasPrice: 0,
+      gas: 4500000,
+      type: "quorum"
+    },
+    node6: {
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 22005, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+      gasPrice: 0,
+      gas: 4500000,
+      type: "quorum"
+    },
+    node7: {
+      host: "127.0.0.1", // Localhost (default: none)
+      port: 22006, // Standard Ethereum port (default: none)
+      network_id: "*", // Any network (default: none)
+      gasPrice: 0,
+      gas: 4500000,
+      type: "quorum"
     }
+  },
+  rpc: {
+    host: "127.0.0.1",
+    port: 22000
   },
   compilers: {
     solc: {
